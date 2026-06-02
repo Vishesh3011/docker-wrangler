@@ -51,6 +51,6 @@ jobs:
             
             - name: Deploy with Docker compose
               run: |
-                docker-compose up --build -d
+                docker compose up --build -d
             
     
