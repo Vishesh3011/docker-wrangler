@@ -1,5 +1,6 @@
 import pytest
-from app.app import app
+from app import app
+from unittest.mock import patch
 
 
 @pytest.fixture
@@ -10,10 +11,13 @@ def client():
 
 
 def test_homepage_loads(client):
-    response = client.get('/')
-    assert response.status_code == 200
+    with patch('app.app.get_tasks', return_value=['Buy milk', 'Walk Dog']):
+        response = client.get('/')
+        assert response.status_code == 200
+        assert b'Buy milk' in response.data
 
 
 def test_add_task_redirects(client):
-    response = client.post('/add', data={'task': 'get milk'})
-    assert response.status_code == 302
+    with patch('app.app.add_task'):
+        response = client.post('/add', data={'task': 'get milk'})
+        assert response.status_code == 302

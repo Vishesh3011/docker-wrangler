@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  flask:
+    build: .            # Build from Dockerfile in the current directory
+    ports:
+      - "8000:8000"     # Mapping of host port 8000 to container port 8000, 
+                        # The one on left tells Docker to map container's port 8000 to host's port 8000 thus allowing to access locally via http://localhost:8000
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_USER=appuser
+      - MYSQL_PASSWORD=apppassword
+      - MYSQL_DB=tasksdb
+    depends_on:
+      mysql:
+        condition: service_healthy  # Wait for MySQL to be healthy before starting Flask
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_USER=appuser
+      - MYSQL_PASSWORD=apppassword
+      - MYSQL_DATABASE=tasksdb
+    volumes:
+      - mysql-data:/var/lib/mysql     # Copies data to a named volume for persistence from the container's /var/lib/mysql directory to a named volume called mysql-data on local machine
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]  # Health check command to verify MySQL is up and running
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+volumes:
+  mysql-data:
+
+networks:
+  app-network:
+    driver: bridge
