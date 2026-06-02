@@ -1,0 +1,20 @@
+<html>
+
+<head>
+    <title>Task Manager</title>
+</head>
+
+<body>
+    <h1>Tasks</h1>
+    <form action="/add" method="post">
+        <input type="text" name="task" placeholder="Enter a new task">
+        <button type="submit">Add Task</button>
+    </form>
+    <ul>
+        {% for task in tasks %}
+        <li>{{ task }}</li>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>
