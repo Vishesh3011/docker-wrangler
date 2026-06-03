@@ -14,7 +14,7 @@ A fully automated CI/CD pipeline that builds, tests, and deploys a two-tier Flas
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    GitHub Actions Runner                 │
+│                    GitHub Actions Runner                │
 │                                                         │
 │   Push to main ──► Build image ──► Run tests ──► Deploy │
 └─────────────────────────────────────────────────────────┘
@@ -26,7 +26,7 @@ A fully automated CI/CD pipeline that builds, tests, and deploys a two-tier Flas
 │                                                       │
 │  ┌─────────────────────┐     ┌─────────────────────┐  │
 │  │  Tier 1 — Flask app │────►│  Tier 2 — MySQL 8.0 │  │
-│  │  Port 5000          │     │  Internal only       │  │
+│  │  Port 5000          │     │  Internal only      │ │
 │  └─────────────────────┘     └─────────────────────┘  │
 └───────────────────────────────────────────────────────┘
 ```
